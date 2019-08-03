@@ -8,7 +8,7 @@
 # Import necessary Python modules
 import cv2
 import numpy as np
-from Tkinter import *
+from tkinter import *
 import matplotlib
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt
@@ -29,7 +29,7 @@ import time
 def centerClick(event, x, y, flags, param):
     global center, frame			# declare these variables as global so that they can be used by various functions without being passed explicitly
     clone = frame.copy()			# save the original frame
-    if event == cv2.EVENT_LBUTTONDOWN:		# if user clicks 
+    if event == cv2.EVENT_LBUTTONDOWN:		# if user clicks
         center = (x,y)				# set click location as center
         cv2.circle(frame, (x,y), 4, (255,0,0), -1) # draw circle at center
         cv2.imshow('CenterClick', frame)	# show updated image
@@ -98,9 +98,9 @@ def circumferencePoints(event, x, y, flags, param):
                 poly2 = np.append(poly2,nextpt,axis=0)
             cv2.circle(frame, center, 4, (255,0,0), -1)
             cv2.circle(frame, center, r, (0,255,0), 1)
-        cv2.imshow('CenterClick', frame) 
+        cv2.imshow('CenterClick', frame)
         frame = clone.copy()
-        
+
 # The same as "circumferencePoints", except this calculates a polygon ROI. The center is calculated as the "center of mass" of the polygon
 def nGon(event, x, y, flags, param):
     global npts, center, frame, xpoints, ypoints, r, poly1, poly2 		# declare these variables as global so that they can be used by various functions without being passed explicitly
@@ -122,12 +122,12 @@ def nGon(event, x, y, flags, param):
                 nextpt = np.array([[xpoints[i+1], ypoints[i+1]]])
                 poly2 = np.append(poly2,nextpt,axis=0)
                 cv2.line(frame, (xpoints[i], ypoints[i]), (xpoints[i+1], ypoints[i+1]), (0, 255, 0), 1)
-            cv2.line(frame, (xpoints[len(xpoints)-1], ypoints[len(xpoints)-1]), (xpoints[0],ypoints[0]), (0, 255, 0), 1)       
+            cv2.line(frame, (xpoints[len(xpoints)-1], ypoints[len(xpoints)-1]), (xpoints[0],ypoints[0]), (0, 255, 0), 1)
             cv2.circle(frame, center, 4, (255,0,0), -1)
-        cv2.imshow('CenterClick', frame) 
+        cv2.imshow('CenterClick', frame)
         frame = clone.copy()
 
-# Removes the most recently clicked point in the array of circle/polygon circumference points. 
+# Removes the most recently clicked point in the array of circle/polygon circumference points.
 def removePoint(orig):
     global npts, center, frame, xpoints, ypoints, r, poly1, poly2, custMask
     if npts == 0:
@@ -195,7 +195,7 @@ def annotateImg(img, i):
     dpro = 'DigiPyRo'
     dproLoc = (25, 50)
     cv2.putText(img, dpro, dproLoc, font, 1, (255, 255, 255), 1)
-    
+
     img[25:25+spinlab.shape[0], (width-25)-spinlab.shape[1]:width-25] = spinlab
 
     timestamp = 'Time: ' + str(round((i/fps),1)) + ' s'
@@ -204,7 +204,7 @@ def annotateImg(img, i):
 
     crpm = 'Original Rotation of Camera: '
     crpm += str(camRPM) + 'RPM'
-    
+
     drpm = 'Additional Digital Rotation: '
     if (digiRPM > 0):
         drpm += '+'
@@ -217,7 +217,7 @@ def annotateImg(img, i):
 
 def annotateSBS(img):
     font = cv2.FONT_HERSHEY_TRIPLEX
-    
+
     orig = 'Raw Movie'
     origLoc = (int(0.01*r), 50)
 
@@ -242,8 +242,8 @@ def instructsCenter(img):
     line3 = 'Press the BACKSPACE or DELETE button to undo a point.'
     line3Loc = (25,100)
     line4 = 'Press ENTER when done.'
-    line4Loc = (25,125) 
-    
+    line4Loc = (25,125)
+
     cv2.putText(img, line1, line1Loc, font, 1, (255, 255, 255), 1)
     cv2.putText(img, line2, line2Loc, font, 1, (255, 255, 255), 1)
     cv2.putText(img, line3, line3Loc, font, 1, (255, 255, 255), 1)
@@ -282,7 +282,7 @@ def instructsUnit(img):
 
 
 
-    
+
 ## Helper Functions: Section 2 -- Mathematical Utility Functions
 
 # 2nd-order central difference method for calculating the derivative of unevenly spaced data
@@ -290,7 +290,7 @@ def calcDeriv(f, t):
     df = np.empty(len(f))
     df[0] = (f[1] - f[0]) / (t[1] - t[0])
     df[len(f)-1] = (f[len(f)-1] - f[len(f)-2]) / (t[len(f)-1] - t[len(f)-2])
-    df[1:len(f)-1] = f[0:len(f)-2]*((t[1:len(f)-1] - t[2:len(f)]) / ((t[0:len(f)-2] - t[1:len(f)-1])*(t[0:len(f)-2] - t[2:len(f)]))) + f[1:len(f)-1]*(((2*t[1:len(f)-1]) - t[0:len(f)-2] - t[2:len(f)]) / ((t[1:len(f)-1] - t[0:len(f)-2])*(t[1:len(f)-1] - t[2:len(f)]))) + f[2:len(f)]*((t[1:len(f)-1] - t[0:len(f)-2]) / ((t[2:len(f)] - t[0:len(f)-2])*(t[2:len(f)] - t[1:len(f)-1]))) 
+    df[1:len(f)-1] = f[0:len(f)-2]*((t[1:len(f)-1] - t[2:len(f)]) / ((t[0:len(f)-2] - t[1:len(f)-1])*(t[0:len(f)-2] - t[2:len(f)]))) + f[1:len(f)-1]*(((2*t[1:len(f)-1]) - t[0:len(f)-2] - t[2:len(f)]) / ((t[1:len(f)-1] - t[0:len(f)-2])*(t[1:len(f)-1] - t[2:len(f)]))) + f[2:len(f)]*((t[1:len(f)-1] - t[0:len(f)-2]) / ((t[2:len(f)] - t[0:len(f)-2])*(t[2:len(f)] - t[1:len(f)-1])))
     return df
 
 # Calculates a polynomial fit of degree "deg" though an array of data "y" with corresponding x values "x"
@@ -335,12 +335,12 @@ def createModelTheta(t, bestfit, thetai):
         elif phase > (np.pi/2) and phase < ((3*np.pi)/2):
            theta[i] = thetai + np.pi
         theta[i] += t[i]*(-bestfit[4])
-        
+
         while theta[i] > 2*np.pi:
            theta[i] -= 2*np.pi
         while theta[i] < 0:
            theta[i] += 2*np.pi
-     
+
     return theta
 
 #####################
@@ -355,14 +355,15 @@ def start():
     global width, height, numFrames, fps, fourcc, video_writer, spinlab, npts # declare these variables as global so they can be used by helper functions without being explicitly passed as arguments
     npts = 0 # number of user-clicked points along circumference of circle/polygon
     spinlab = cv2.imread('SpinLabUCLA_BW_strokes.png') # spinlab logo to display in upper right corner of output video
-    width = int(vid.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)) 
-    height = int(vid.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)) # read the width and height of input video. output video will have matching dimensions
+    width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)) # read the width and height of input video. output video will have matching dimensions
     fps = fpsVar.get()
     fileName = savefileVar.get()
-    fourcc = cv2.cv.CV_FOURCC('m','p','4','v') # codec for output video
+    fourcc = cv2.VideoWriter_fourcc('m','p','4','v') # codec for output video
     video_writer = cv2.VideoWriter(fileName+'.avi', fourcc, fps, (width, height)) # VideoWriter object for editing and saving the output video
 
-    spinlab = cv2.resize(spinlab,(int(0.2*width),int((0.2*height)/3)), interpolation = cv2.INTER_CUBIC) # resize spinlab logo based on input video dimensions
+    dim = (int(0.2*width),int((0.2*height)/3))
+    spinlab = cv2.resize(spinlab, dim, interpolation = cv2.INTER_CUBIC) # resize spinlab logo based on input video dimensions
 
     global naturalRPM, physicalRPM, digiRPM, camRPM, dtheta, per, custMask, changeUnits, unitType, unitCount, unitConv # declare these variables as global so they can be used by helper functions without being explicitly passed as arguments
     naturalRPM = tableRPMVar.get()
@@ -393,7 +394,7 @@ def start():
     global center, frame, xpoints, ypoints, r, poly1, poly2 # declare these variables as global so they can be used by helper functions without being explicitly passed as arguments
 
     # Open first frame from video, user will click on center
-    vid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame) # set the first frame to correspond to the user-selected start time
+    vid.set(cv2.CAP_PROP_POS_FRAMES, startFrame) # set the first frame to correspond to the user-selected start time
     ret, frame = vid.read() # read the first frame from the input video
     frame = cv2.resize(frame,(width,height), interpolation = cv2.INTER_CUBIC) # ensure frame is correct dimensions
     cv2.namedWindow('CenterClick')
@@ -419,7 +420,7 @@ def start():
 
     # Select initial position of ball (only if particle tracking is selected)
     if trackBall:
-        vid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame)
+        vid.set(cv2.CAP_PROP_POS_FRAMES, startFrame)
         ret, frame = vid.read()
         frame = cv2.resize(frame,(width,height), interpolation = cv2.INTER_CUBIC)
         cv2.namedWindow('Locate Ball')
@@ -432,18 +433,18 @@ def start():
 
     # Draw a line to calculate a pixel-to-distance conversion factor
     if changeUnits:
-        vid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame)
+        vid.set(cv2.CAP_PROP_POS_FRAMES, startFrame)
         ret, frame = vid.read()
         frame = cv2.resize(frame,(width,height), interpolation = cv2.INTER_CUBIC)
         cv2.namedWindow('Distance Calibration')
         cv2.setMouseCallback('Distance Calibration', unitConversion)
-        
+
         instructsUnit(frame)
         cv2.imshow('Distance Calibration', frame)
         cv2.waitKey(0)
         cv2.destroyWindow('Distance Calibration')
 
-    vid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame) # reset video to first frame
+    vid.set(cv2.CAP_PROP_POS_FRAMES, startFrame) # reset video to first frame
 
     # allocate empty arrays for particle-tracking data
     t = np.empty(numFrames)
@@ -455,7 +456,7 @@ def start():
         thresh = 50
         trackingData = np.zeros(numFrames) # logical vector which tells us if the ball was tracked at each frame
     framesArray = np.empty((numFrames,height,width,3), np.uint8)
-    
+
     # Go through the input movie frame by frame and do the following: (1) digitally rotate, (2) apply mask, (3) center the image about the point of rotation, (4) search for particle and record tracking results
     for i in range(numFrames):
         # Read + resize current frame
@@ -466,7 +467,7 @@ def start():
         if totRPM != 0: # Case 1: the mask is applied before rotation so it co-rotates with the additional digital rotation
             cv2.fillPoly(frame, np.array([poly1, poly2]), 0) # black out everything outside the region of interest
             cv2.circle(frame, center, 4, (255,0,0), -1) # place a circle at the center of rotation
-        
+
         if addRot:
             M = cv2.getRotationMatrix2D(center, i*dtheta, 1.0)
             frame = cv2.warpAffine(frame, M, (width, height))
@@ -474,34 +475,34 @@ def start():
                 cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
         else:
             cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
-        
+
         # (3)
         frame = centerImg(frame, center[0], center[1]) # center the image
-    
-    
+
+
         centered = cv2.resize(frame,(width,height), interpolation = cv2.INTER_CUBIC) # ensure the frame is the correct dimensions
-        
+
         # (4)
         if trackBall: # if tracking is turned on, apply tracking algorithm
             gray = cv2.cvtColor(centered, cv2.COLOR_BGR2GRAY) # convert to black and whitee
             gray = cv2.medianBlur(gray,5) # blur image. this allows for better identification of circles
-            ballLoc = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1, 20, param1=50, param2=10, minRadius = int(particleRadius * 0.6), maxRadius = int(particleRadius * 1.4))
+            ballLoc = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=10, minRadius = int(particleRadius * 0.6), maxRadius = int(particleRadius * 1.4))
             if type(ballLoc) != NoneType : # if a circle is identified, record it
                 for j in ballLoc[0,:]:
-                    if (np.abs(j[0] - lastLoc[0]) < thresh) and (np.abs(j[1] - lastLoc[1]) < thresh):    
+                    if (np.abs(j[0] - lastLoc[0]) < thresh) and (np.abs(j[1] - lastLoc[1]) < thresh):
                         cv2.circle(centered, (j[0],j[1]), j[2], (0,255,0),1)
                         cv2.circle(centered, (j[0],j[1]), 2, (0,0,255), -1)
                         ballX[ballPts] = j[0]
                         ballY[ballPts] = j[1]
-	                t[ballPts] = i/fps
-                        lastLoc = np.array([j[0],j[1]])      
+                        t[ballPts] = i/fps
+                        lastLoc = np.array([j[0],j[1]])
                         ballPts += 1
                         trackingData[i] = 1
                         break
-            
+
             # mark the frame with dots to indicate the particle path
             for k in range(ballPts-1):
-                cv2.circle(centered, (int(ballX[k]), int(ballY[k])), 1, (255,0,0), -1)    	
+                cv2.circle(centered, (int(ballX[k]), int(ballY[k])), 1, (255,0,0), -1)
 
 
         annotateImg(centered, i) # apply diagnostic information and logos to each frame
@@ -516,11 +517,11 @@ def start():
         t = t[0:ballPts]
         ballX -= center[0] # set the center of rotation as the origin
         ballY -= center[1] # "                                      "
-        
+
         # Convert from pixels to units of distance
         ballX *= unitConv
         ballY *= unitConv
-    
+
         ballR = ((ballX**2)+(ballY**2))**(0.5) # convert to polar coordinates
         ballTheta = np.arctan2(ballY, ballX)   # "                          "
         for i in range(len(ballTheta)):        # ensure that the azimuthal coordinate is in the range [0, 2*pi]
@@ -564,7 +565,7 @@ def start():
             plt.plot(t, ballY, 'b1')
             plt.xlabel(r"$t$ (s)")
             plt.ylabel(r"$y$")
-            plt.savefig(fileName+'_cartesian.pdf', format = 'pdf', dpi =1200)   
+            plt.savefig(fileName+'_cartesian.pdf', format = 'pdf', dpi =1200)
 
             plt.figure(3)
             plt.subplot(221)
@@ -598,9 +599,9 @@ def start():
         dataFile.write('Original File: ' + filename + '\n' + 'Output File: ' + fileName + '\n')
         dataFile.write('Date of run: ' + time.strftime("%c") + '\n \n')
         dataFile.write('Original rotation of camera: ' + str(camRPM) + ' RPM\n' + 'Added digital rotation: ' + str(digiRPM) + ' RPM\n' + 'Curvature of surface: ' + str(naturalRPM) + ' RPM\n' + '\n' + 'Particle Tracking Data')
-        dataFile.write(' in ' + unitType + ' and ' + unitType + '/s\n') 
+        dataFile.write(' in ' + unitType + ' and ' + unitType + '/s\n')
         dataFile.write('t x y r theta u_x u_y u_r u_theta ||u||\n')
-        
+
         for i in range(len(ballX)):
             for j in range(len(dataList)):
                 entry = "%.2f" % dataList[j][i]
@@ -613,7 +614,7 @@ def start():
     cv2.destroyAllWindows()	# close any open windows
     vid.release()		# release the video
 
-    # Loop through video and report inertial radius 
+    # Loop through video and report inertial radius
     numRadii = 25
     if trackBall:
         rInertSmooth[0:3] = 0
@@ -643,15 +644,15 @@ def start():
         for i in range(numFrames):
             frame = framesArray[i]
             video_writer.write(frame)
-    
+
     video_writer.release()
-    
+
     sideBySideView = sideBySideViewVar.get()
     if sideBySideView:
         oldVid = cv2.VideoCapture(filename)		   # grab original video
         newVid = cv2.VideoCapture(fileName+'.avi')	   # grab DigiPyRo-ed video
-        oldVid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame) # reset original video to start frame
-        newVid.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, startFrame)
+        oldVid.set(cv2.CAP_PROP_POS_FRAMES, startFrame) # reset original video to start frame
+        newVid.set(cv2.CAP_PROP_POS_FRAMES, startFrame)
 
         borderWidth = 30
         borderHeight = 100
@@ -663,13 +664,13 @@ def start():
         oldWidth1 = (int((width/2)+r))
         oldWidth2 = (int((width/2)-r))
         if oldHeight1 > height:
-	    oldHeight1 = height
+            oldHeight1 = height
         if oldWidth1 > width:
-	    oldWidth1 = width
+            oldWidth1 = width
         if oldHeight2 < 0:
-	    oldHeight2 = 0
+            oldHeight2 = 0
         if oldWidth2 < 0:
-	    oldWidth2 = 0
+            oldWidth2 = 0
 
         if ((oldHeight1-oldHeight2) - (2*borderHeight)) < height:
             newHeight = (oldHeight1-oldHeight2) + 2*borderHeight
@@ -690,7 +691,7 @@ def start():
             outFrame[borderHeight:newHeight-borderHeight,0:(oldWidth1-oldWidth2)] = frame1[oldHeight2:oldHeight1, oldWidth2:oldWidth1]
             outFrame[borderHeight:newHeight-borderHeight,int(2*r)+borderWidth:newWidth] = frame2[oldHeight2:oldHeight1, oldWidth2:oldWidth1]
             annotateSBS(outFrame)
- 
+
             #outFrame[0:int(height*shrinkFactor), 0:int(width*shrinkFactor)] = frame1
             #outFrame[0:int(height*shrinkFactor),  int(width/2):int(width/2)+int(width*shrinkFactor)] = frame2
             video_writerSBS.write(outFrame)
@@ -780,4 +781,3 @@ unitCountLabel.grid(row=8, column=3)
 unitCountEntry.grid(row=8, column=4)
 
 root.mainloop()
-
