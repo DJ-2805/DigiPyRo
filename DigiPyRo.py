@@ -65,7 +65,7 @@ def locate(event, x, y, flags, param):
         particleStart = (x,y)							# record location
     elif event == cv2.EVENT_LBUTTONUP:						# if user releases click
         particleEnd = (x,y)							# record location
-        particleCenter = ((particleEnd[0] + particleStart[0])/2, (particleEnd[1] + particleStart[1])/2)  # define the center as the midpoint between start and end points
+        particleCenter = ((particleEnd[0] + particleStart[0])//2, (particleEnd[1] + particleStart[1])//2)  # define the center as the midpoint between start and end points
         d2 = ((particleEnd[0] - particleStart[0])**2) + ((particleEnd[1] - particleStart[1])**2)
         particleRadius = (d2**(0.5))/2
         cv2.circle(frame, particleCenter, int(particleRadius+0.5), (255,0,0), 1)	# draw circle that shows the radius and location of cirlces that the Hough circle transform will search for
@@ -456,9 +456,13 @@ def start():
         thresh = 50
         trackingData = np.zeros(numFrames) # logical vector which tells us if the ball was tracked at each frame
     framesArray = np.empty((numFrames,height,width,3), np.uint8)
+    
+    print(vid.read()[1].shape)
+    # np.savetxt('check.txt',vid.read()[1])
 
     # Go through the input movie frame by frame and do the following: (1) digitally rotate, (2) apply mask, (3) center the image about the point of rotation, (4) search for particle and record tracking results
     for i in range(numFrames):
+        print(i,(width,height))
         # Read + resize current frame
         ret, frame = vid.read() # read next frame from video
         frame = cv2.resize(frame,(width,height), interpolation = cv2.INTER_CUBIC)
@@ -487,7 +491,7 @@ def start():
             gray = cv2.cvtColor(centered, cv2.COLOR_BGR2GRAY) # convert to black and whitee
             gray = cv2.medianBlur(gray,5) # blur image. this allows for better identification of circles
             ballLoc = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=10, minRadius = int(particleRadius * 0.6), maxRadius = int(particleRadius * 1.4))
-            if type(ballLoc) != None: # if a circle is identified, record it
+            if type(ballLoc) != type(None): # if a circle is identified, record it
                 for j in ballLoc[0,:]:
                     if (np.abs(j[0] - lastLoc[0]) < thresh) and (np.abs(j[1] - lastLoc[1]) < thresh):
                         cv2.circle(centered, (j[0],j[1]), j[2], (0,255,0),1)
