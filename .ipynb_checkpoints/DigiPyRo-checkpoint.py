@@ -516,6 +516,7 @@ def start():
 
     # Reformat tracking data
     if trackBall:
+        print(ballPts)
         ballX = ballX[0:ballPts] # shorten the array to only the part which contains tracking info
         ballY = ballY[0:ballPts]
         t = t[0:ballPts]
