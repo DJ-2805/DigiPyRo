@@ -354,7 +354,7 @@ def start():
 
     global width, height, numFrames, fps, fourcc, video_writer, spinlab, npts # declare these variables as global so they can be used by helper functions without being explicitly passed as arguments
     npts = 0 # number of user-clicked points along circumference of circle/polygon
-    spinlab = cv2.imread('SpinLabUCLA_BW_strokes.png') # spinlab logo to display in upper right corner of output video
+    spinlab = cv2.imread('util/SpinLabUCLA_BW_strokes.png') # spinlab logo to display in upper right corner of output video
     width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)) # read the width and height of input video. output video will have matching dimensions
     fps = fpsVar.get()

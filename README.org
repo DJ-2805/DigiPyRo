@@ -2,10 +2,16 @@
 #+AUTHOR: David James, davidabraham@ucla.edu
 #+DATE: 2020 April 04
 
+Digitally rotates a movie and allows for single-particle tracking. Originally
+designed to intuitively show Coriolis force effects through the appearance of
+inertial circles when digitally rotating film of a ball oscillating on a
+parabolic surface.
+
 * Installation
   This SOP assumes that you have python already installed. Before you get to run
-  the program you'll need to ensure that you have all the dependencies that the
-  programs run on. Because of how most of this program is setup, you will do most of the interaction with code through the terminal.
+  DigiPyRo you'll need to install the dependencies so the program can run.
+  Because of how most of this program is setup, you will do most of the
+  interaction with code through the terminal.
   1. If you are on Windows, open the ~Powershell~. If you are on Mac, open the ~Terminal~.
   2. Next you will need to move over to the the directory that contains the files that you unzipped.
   3. First make sure your package manager is up-to-date.
