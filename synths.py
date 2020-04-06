@@ -12,11 +12,12 @@ matplotlib.use("Agg")
 # *** COMMAND LINE INTERFACE SETUP ***
 
 # initial message for program
-msg = 'This program creates a synthetic .avi movie for use with DigiPyRo.'
-msg += 'The video shows a ball rolling on a parabolic surface.'
+msg = 'This program creates a synthetic .avi movie for use with DigiPyRo. '
+msg += 'The video shows a ball rolling on a parabolic surface. '
 msg += 'The user may change the length of the movie, the frame rate, the resolution of the movie, the frequency of oscillations, '
 msg += 'the rotation rate of the reference frame, and control the initial conditions of the ball.'
-parser = ap.ArgumentParser(description = msg)
+parser = ap.ArgumentParser(description = msg,
+                           formatter_class=ap.ArgumentDefaultsHelpFormatter)
 
 # collecting arguments for the user to change
 parser.add_argument('-t', '--time', type=float, default=5,
