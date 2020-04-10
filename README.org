@@ -7,6 +7,14 @@ designed to intuitively show Coriolis force effects through the appearance of
 inertial circles when digitally rotating film of a ball oscillating on a
 parabolic surface.
 
+* Setup
+  You'll first need to get the files needed to install and run DigiPyRo.
+  1. First download the files needed. You can either follow [[https://github.com/DJ-2805/DigiPyRo][this]] link or you can download the files if you have ~git~ on your terminal.
+     #+BEGIN_SRC bash
+       git clone https://github.com/dj-2805/digipyro
+     #+END_SRC
+  2. You'll then need to unzipped the folder
+
 * Installation
   This SOP assumes that you have python already installed. Before you get to run
   DigiPyRo you'll need to install the dependencies so the program can run.
@@ -34,5 +42,52 @@ parabolic surface.
   oscillations, rotation rate of the reference frame, and control the inital
   conditions of the ball.
   1. You will still need the terminal at this point, so open it up if you have closed it.
-  2.
+  2. To see the ~help~ message for the the movie program type
+     #+BEGIN_SRC bash
+       python synths.py -h
+     #+END_SRC
+  3. You should see the following messaged
+     #+BEGIN_SRC org
+       usage: synths.py [-h] [-t TIME] [-f FPS] [-w WIDTH] [-l LENGTH] [-r RPM]
+                        [-R ROTRATE] [--r0 R0] [--vr0 VR0] [--phi0 PHI0]
+                        [--vphi0 VPHI0]
+
+       This program creates a synthetic .avi movie for use with DigiPyRo. The video
+       shows a ball rolling on a parabolic surface. The user may change the length of
+       the movie, the frame rate, the resolution of the movie, the frequency of
+       oscillations, the rotation rate of the reference frame, and control the
+       initial conditions of the ball.
+
+       optional arguments:
+         -h, --help            show this help message and exit
+         -t TIME, --time TIME  The desired length of the movie in seconds. (default: 5)
+         -f FPS, --fps FPS     The frame rate of the video (frames per second). (default: 30.0)
+         -w WIDTH, --width WIDTH
+                               The width in pixels of the video. (default: 1260)
+         -l LENGTH, --length LENGTH
+                               The height in pixels of the video. (default: 720)
+         -r RPM, --rpm RPM     The frequency of oscillations. (default: 10.0)
+         -R ROTRATE, --rotRate ROTRATE
+                               The rotation rate of the camera. The two natural
+                               frames of reference are with rotRate = and rotRate = rpm. (default: 0.0)
+         --r0 R0               The initial radial position of the ball. (default: 1.0)
+         --vr0 VR0             The initial radial velocity of the ball. (default: 0.0)
+         --phi0 PHI0           The initial azimuthal position of the ball. Choose a value between 0 and 2*pi. (default: 0.7853981633974483)
+         --vphi0 VPHI0         The initial azimuthal velocity of the ball. (default: 0)
+     #+END_SRC
+  4. The program has several flags, and all of them have default values described in the help message. The program can be run in several different ways, where you run it with it's defualt values or you change the flags desired to have a video produced. Note, when you do run it, you'll be prompted for a movie name. The produced movie will be in ~.avi~ format, so only a movie name will be needed. Examples are shown below:
+     #+BEGIN_SRC bash
+       # running the program with just its default values
+       python synths.py
+
+       # running the program with changing one value
+       python synths.py -t 10
+
+       # the same but using the full flag name
+       python synths.py --time 10
+
+       # running the program with multiple flags
+       python synths.py -t 7 -r 15 --vr0 3
+     #+END_SRC
+   5. After the program completes, you should see your movie file created in the same directory and ready to play.
 * DigiPyRo Program
