@@ -53,6 +53,9 @@ version is maintained by [[https://github.com/DJ-2805][David James]] in conjunct
 * Synthetic Movie Program
   At this point, you should have Python and all the dependencies to run the
   programs. This first one creates a synthetic .avi movie for use with DigiPyRo.
+  If you already have a film from experimentation, then you can skip this
+  program, and move to DigiPyRo.
+
   The video shows a ball rolling on a parabolic surface, where the user may
   change the video length of the movie, frame rate, resolution, frequncy of
   oscillations, rotation rate of the reference frame, and control the inital
