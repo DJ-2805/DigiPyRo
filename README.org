@@ -21,8 +21,19 @@ parabolic surface.
   Because of how most of this program is setup, you will do most of the
   interaction with code through the terminal.
   1. If you are on Windows, open the ~Powershell~. If you are on Mac, open the ~Terminal~.
-  2. Next you will need to move over to the the directory that contains the files that you unzipped.
-  3. First make sure your package manager is up-to-date.
+  2. To verify that you do have Python install, run the following command
+     #+BEGIN_SRC bash
+       # windows machine
+       python --version
+
+       # MAC machine
+       python3 --version
+     #+END_SRC
+     - you should see an output of Python 3.x.x version number. If you see Python 2.x.x, you will need to reinstall your Python.
+
+     - NOTE :: Some machines need =python3= being called explicitly rather than =python= in terminal calls. If this produces the correct version, then any future commands you see in the rest of the instructions will require =python3= being typed rather than =python=
+  3. Next you will need to move over to the the directory that contains the files that you unzipped.
+  4. First make sure your package manager is up-to-date.
      #+BEGIN_SRC bash
        # if you are on a Windows machine, run this command
        python -m pip install --upgrade pip
@@ -30,7 +41,7 @@ parabolic surface.
        # if you are on a Mac, run this command
        pip install --upgrade pip
      #+END_SRC
-  4. Next you'll be installing the dependencies.
+  5. Next you'll be installing the dependencies.
      #+BEGIN_SRC bash
        pip install -r requirements.txt
      #+END_SRC
@@ -95,3 +106,10 @@ parabolic surface.
      #+END_SRC
   5. After the program completes, you should see your movie file created in the same directory and ready to play.
 * DigiPyRo Program
+  Now to run the DigiPyRo program you'll need a video and to set some parameters. The DigiPyRo program runs through a GUI, but will still need a terminal command to get the program started.
+  1. Run the following command to get DigiPyRo started.
+     #+BEGIN_SRC bash
+       python DigiPyRo.py
+     #+END_SRC
+  2. You will see a GUI window appear, where you can input values for each area.
+  3.
