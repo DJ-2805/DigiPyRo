@@ -4,10 +4,13 @@
 
 [[https://github.com/DJ-2805/DigiPyRo/blob/master/util/SpinLabUCLA_BW_strokes.png]]
 
-Digitally rotates a movie and allows for single-particle tracking. Originally
-designed to intuitively show Coriolis force effects through the appearance of
-inertial circles when digitally rotating film of a ball oscillating on a
-parabolic surface.
+DigiPyRo is a program designed to digitally rotate a movie and allows for
+single-particle tracking. This was originally designed to intuitively show
+Coriolis force effects through the appearance of inertial circles when digitally
+rotating film of a ball oscillating on a parabolic surface.
+
+The Python 2.7 version of the code was created by [[https://github.com/sam-may/DigiPyRo][Sam May]] and the current
+version is maintained by [[https://github.com/DJ-2805][David James]] in conjunction with the [[https://spinlab.epss.ucla.edu/][SPIN Lab]] at UCLA.
 
 * Setup
   You'll first need to get the files needed to install and run DigiPyRo.
