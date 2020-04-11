@@ -128,4 +128,4 @@ version is maintained by [[https://github.com/DJ-2805][David James]] in conjunct
   5. For the ~Save output video as~ parameter, only the file name needs to be given. The extension will be added after the program executes.
   6. For the ~Start and end times~ parameter, the end time should be a bit shorter of the true end of the film (i.e. if the film is 5 secs long then this ~end time~ should go to 4.8). This is a current bug that I came across; sometimes the program goes out of index if the full length of the film is given.
   7. For more description and instructions on the programs refer to [[https://github.com/DJ-2805/DigiPyRo/blob/master/Examples/BasicExamples_v3.pdf][Sam's Instruction PDF]].
-     - NOTE :: This is out-of-date for some instructions, because the program has been changed, but still gives description and images on some of the steps.
+     - NOTE :: Sam's PDF is out-of-date for some instructions, because the program has been changed, but still gives description and images on some of the steps.
