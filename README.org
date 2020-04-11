@@ -2,6 +2,8 @@
 #+AUTHOR: David James, davidabraham@ucla.edu
 #+DATE: 2020 April 04
 
+[[https://github.com/DJ-2805/DigiPyRo/blob/master/util/SpinLabUCLA_BW_strokes.png][SpinLab UCLA]]
+
 Digitally rotates a movie and allows for single-particle tracking. Originally
 designed to intuitively show Coriolis force effects through the appearance of
 inertial circles when digitally rotating film of a ball oscillating on a
