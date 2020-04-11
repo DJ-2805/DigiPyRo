@@ -104,6 +104,7 @@ parabolic surface.
        # running the program with multiple flags
        python synths.py -t 7 -r 15 --vr0 3
      #+END_SRC
+     - NOTE :: Depending on the parameters given and how powerful your machine is, this could take a couple minutes for it to create your film.
   5. After the program completes, you should see your movie file created in the same directory and ready to play.
 * DigiPyRo Program
   Now to run the DigiPyRo program you'll need a video and to set some parameters. The DigiPyRo program runs through a GUI, but will still need a terminal command to get the program started.
@@ -112,4 +113,9 @@ parabolic surface.
        python DigiPyRo.py
      #+END_SRC
   2. You will see a GUI window appear, where you can input values for each area.
-  3.
+  3. The values are based on either the video you created from synths.py or a lab experiment you ran beforehand.
+  4. For the ~full filepath to movie~ parameter, unless the video is in the same directory as ~DigiPyRo.py~, you must specify the entire path. Furthermore, you must specify the extension of the movie (i.e. .avi, .mp4, etc.).
+  5. For the ~Start and end times~ parameter, the end time should be a bit shorter of the true end of the film (i.e. if the film is 5 secs long then this ~end time~ should go to 4.8). This is a current bug that I came across; sometimes the program goes out of index if the full length of the film is given.
+  6. For the ~Save output video as~ parameter, only the file name needs to be given. The extension will be added after the program executes.
+  7. For more description and instructions on the programs refer to [[https://github.com/DJ-2805/DigiPyRo/blob/master/Examples/BasicExamples_v3.pdf][Sam's Instruction PDF]].
+     - NOTE :: This is out-of-date for some instructions, because the program has been changed, but still gives description and images on some of the steps.
