@@ -89,5 +89,5 @@ parabolic surface.
        # running the program with multiple flags
        python synths.py -t 7 -r 15 --vr0 3
      #+END_SRC
-   5. After the program completes, you should see your movie file created in the same directory and ready to play.
+  5. After the program completes, you should see your movie file created in the same directory and ready to play.
 * DigiPyRo Program
