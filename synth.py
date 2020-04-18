@@ -1,7 +1,6 @@
 import argparse as ap
 import numpy as np
 import cv2
-# from tkinter import *
 import matplotlib
 from matplotlib import pyplot as plt
 import scipy as sp
@@ -30,10 +29,12 @@ parser.add_argument('-w', '--width', type=int, default=1260,
                     help='The width in pixels of the video.')
 parser.add_argument('-l', '--length', type=int, default=720,
                     help='The height in pixels of the video.')
-parser.add_argument('-r', '--rpm', type=float, default=10.0,
-                    help=('The frequency of oscillations. A good value '
-                          'would be between 5 and 15.'))
-parser.add_argument('-R', '--rotRate', type=float, default=0.0,
+parser.add_argument('-r', '--eqpot_rpm', type=float, default=10.0,
+                    help=('The deflection of a stationary paraboloid surface '
+                          'as if it were an equipotentional in a system '
+                          'rotating at the specified rate. '
+                          'A good value would be between 5 and 15.'))
+parser.add_argument('-R', '--cam_rpm', type=float, default=0.0,
                     help=('The rotation rate of the camera. The two natural '
                           'frames of reference are with rotRate = 0 and '
                           'rotRate = rpm.'))
@@ -66,10 +67,10 @@ spinlab = cv2.resize(spinlab,(int(0.2*width),int((0.2*height)/3)), interpolation
 
 
 # Define table values
-rpm = args.rpm                          # [4] frequency of oscillations (in RPM). Good values might be 5-15
+rpm = args.eqpot_rpm                    # [4] frequency of oscillations (in RPM). Good values might be 5-15
                                         # NOTE: A two-dimensional rotating system naturally takes the shape of a parabola.
                                         # The rotation rate determines the curvature of the parabola, which is why we define the curvature in terms of RPM
-rotRate = args.rotRate                  # [5] rotation rate of camera. The two natural frames of reference are with rotRate = 0 and rotRate = rpm
+rotRate = args.cam_rpm                  # [5] rotation rate of camera. The two natural frames of reference are with rotRate = 0 and rotRate = rpm
 
 
 # Set initial conditions
