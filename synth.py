@@ -3,11 +3,11 @@ import numpy as np
 import cv2
 import matplotlib
 from matplotlib import pyplot as plt
-import scipy as sp
 from scipy.optimize import leastsq
 
 matplotlib.use("Agg")
 
+#------------------------------------------------------------------------------
 # *** COMMAND LINE INTERFACE SETUP ***
 
 # initial message for program
