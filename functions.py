@@ -47,8 +47,6 @@ def parabolaPoints():
         if i < (width/2 - int(amp)) or i > (width/2 + int(amp)):
             continue
         xpoints[i] = i
-        #ypoints[i] = int( ((0.75)*float(fullHeight-height)) - ((omega**2)*((float(i-(width/2))/float(amp))*)/(2*9.8))
-        #ypoints[i] = int( ((0.75)*float(fullHeight-height)) - ((rpm**2)*((float(i-(width/2))/float(amp))**2))/(2*9.8))
         ypoints[i] = int( ((0.75)*float(fullHeight-height)) - ((omega**2)*((float(i-(width/2))/float(amp))**2)*((metersToPixels)**2))/(2*9.8*metersToPixels))
         nextPoint = np.array([xpoints[i], ypoints[i]])
         try:
