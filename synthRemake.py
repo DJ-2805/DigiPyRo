@@ -67,11 +67,15 @@ if __name__ == "__main__":
     fps = args.fps
     width = args.width
     height = args.height
-    spinlab = cv2.resize(spinlab,(int(0.2*width),int((0.2*height)/3)), interpolation = cv2.INTER_CUBIC)
+    spinlab = cv2.resize(spinlab,
+                         (int(0.2*width),int((0.2*height)/3)),
+                         interpolation = cv2.INTER_CUBIC)
 
     # Define table value
-    # NOTE: A two-dimensional rotating system naturally takes the shape of a parabola.
-    # The rotation rate determines the curvature of the parabola, which is why we define the curvature in terms of RPM
+    # NOTE: A two-dimensional rotating system naturally
+    # takes the shape of a parabola.
+    # The rotation rate determines the curvature of the parabola
+    # which is why we define the curvature in terms of RPM
     rpm = args.eqpot_rpm
     rotRate = args.cam_rpm
 
@@ -80,3 +84,72 @@ if __name__ == "__main__":
     vr0 = args.vr0
     phi0 = args.phi0
     vphi0 = args.vphi0
+
+    # Ask user for movie name
+    saveFile = input('Enter a name for the movie (e.g. mySyntheticMovie): ')
+
+    # Ask user if they would like a parabolic side view
+    parView = input('Would you also like a side view? (yes/no): ')
+    doParView = 'yes' in parView
+
+    if doParView:
+        saveFilePar = saveFile + 'side.avi'
+        parViewFrac = 0.3
+        borderHeight = 50
+        lineWidth = 10
+        parHeight = int(height*(parViewFrac+1))
+        fullHeight = parHeight + borderHeight
+    else:
+        fullHeight = height
+
+    saveFile += '.avi'
+
+    # Set the amplitude of oscillations to 40% of the smaller dimension
+    # * WHY
+    amp = 0
+    if width > height:
+        amp = int(0.5*height)
+        ballSize = int(height/30)
+    else:
+        amp = int(0.5*width)
+        ballSize = int(width/30)
+
+    # calculate angular frequency of oscillations
+    omega = (rpm * 2 * np.pi)/60
+
+    # Create movie file
+    # compression format: mpeg-4
+    fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+    # api for wrting videos or image sequences
+    video_writer = cv2.VideoWriter(saveFile, fourcc, fps, (width, fullHeight))
+
+    # calculate number of frames in a movie
+    numFrames = int(movLength * fps)
+    # correcting angle-measuring convection
+    # * WHY
+    phi0 *= -1
+
+    # rotation of the camera for each frame (degrees)
+    dtheta = rotRate * (6/fps)
+
+    # * check how parabolaPoints works
+    parPoints = parabolaPoints()
+    parPoints = parPoints.reshape((-1,1,2))
+
+
+    # create map ("dictionary") that allows me to look up
+    # the corresponding y-position of any x-point on parabola
+    parDict = {}
+    size = parPoints.shape[0]
+    for i in range(size):
+        parDict[str(parPoints[i,0,0])] = parPoints[i,0,1]
+
+    for i in range(numFrames):
+        frame = np.zeros((height,width,3), np.uint8)
+
+        # outline of the circular table
+        cv2.circle(img=frame,
+                   center=(width//2, height//2),
+                   radius=int(amp),
+                   color=(255,255,255),
+                   thickness=2)
