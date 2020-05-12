@@ -130,7 +130,7 @@ def r(t):
     t1 = (((vr0**2)+((r0**2)*(vphi0**2)))*(np.sin(omega*t)**2))/(omega**2)
     t2 = (1/omega)*(r0*vr0*np.sin(2*omega*t))
     t3 = (r0**2)*(np.cos(omega*t)**2)
-    return (t1+t2+t3)**(0.5)
+    return (t1+2+t3)**(0.5)
 
 def phi(t):
     y = ((1/omega)*(np.sin(omega*t))*(vr0*np.sin(phi0) + r0*vphi0*np.cos(phi0))) + r0*np.sin(phi0)*np.cos(omega*t)
