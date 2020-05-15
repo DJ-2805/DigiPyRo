@@ -1,0 +1,15 @@
+#+TITLE: Application Structure
+#+AUTHOR: David James, davidabraham@ucla.edu
+#+DATE: 2020 May 15
+
+* File Structure
+  - README.org: description of the application code
+  - app.py: driver file for the application
+  - mods: directory containing modules
+    - synth.py: base code to run synthesizer function
+    - digipyro.py: base code to run digipyro function
+    - gui.py: base code to run .ui files for GUI
+    - NOTE :: any extra files seen here are most likely development files
+  - static: images and ui files for application
+    - *.ui: GUI files for each window of application
+    - image files for application
