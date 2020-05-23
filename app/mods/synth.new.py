@@ -1,5 +1,6 @@
 import argparse as ap
 import paraboloid as pbd
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animate
 
@@ -109,8 +110,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
         return puckTop, puckSide
 
-    fps = 60
-    frames = np.linspace(start=0, stop=t, num=int(t*fps))
+    fps = 30
+    frames = np.linspace(start=0, stop=time, num=int(time*fps))
     animation = animate.FuncAnimation(fig,
                                       init_func=init,
                                       func=animation_frame,
@@ -119,7 +120,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
 def save_animation(animation, name):
     """Saves animation when called."""
-    animation.save(name, wrtier='ffmpeg', fps=30, dpi=200)
+    animation.save(name, writer='ffmpeg', fps=30, dpi=200)
 
 if __name__ == "__main__":
     animation = animate_paraboloid(time, omega, u0, v0, x0, radius)
