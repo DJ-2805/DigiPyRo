@@ -1,9 +1,11 @@
-import argparse as ap
-import paraboloid as pbd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animate
+# libraries
+import argparse as ap                       # command line lib
+import paraboloid as pbd                    # paraboloid lib, paraboloid.py
+import numpy as np                          # numerical lib
+import matplotlib.pyplot as plt             # plotting lib
+import matplotlib.animation as animate      # animation lib
 
+# sets plots to a darker color scheme
 plt.style.use("dark_background")
 #------------------------------------------------------------------------------
 # *** COMMAND LINE INTERFACE SETUP ***
@@ -45,6 +47,11 @@ parser.add_argument('-r', '--radius', type=float, default=2,
 parser.add_argument('-n', '--name', type=str, default="movie.mp4",
                     help="Title of the movie that will be outputted.")
 
+parser.add_argument('-s', '--switch', type=int, default=0,
+                    help=('Choice to either show the animation or save it. '
+                          'Default displays the animation. Option [1] will '
+                          'save the animation as an mp4.'))
+
 # collecting user input into list
 args = parser.parse_args()
 
@@ -55,16 +62,17 @@ v0 = args.v0
 x0 = args.x0
 radius = args.radius
 name = args.name
+switch = args.switch
 
 def animate_paraboloid(time, omega, u0, v0, x0, radius):
     """Animates the paraboloid.
 
     Keyword arguments:
-    time -- float, length of animation in seconds
+    time  -- float, length of animation in seconds
     omega -- float, effective rotation
-    u0 -- float, initial x-component of the velocity
-    v0 -- float, initial y-component of the velocity
-    x0 -- float, initial x-component of the position
+    u0    -- float, initial x-component of the velocity
+    v0    -- float, initial y-component of the velocity
+    x0    -- float, initial x-component of the position
 
     Returns:
     animation -- Obj, animation object
@@ -73,13 +81,15 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     # creating circle
     circle = pbd.circle(radius)
+    parabola = pbd.parabola(radius, omega)
 
     # size of plots based off paraboloid radius
     rmax = radius*1.5
     size = (-1*(rmax), rmax)
 
     # creating figure and plots
-    fig, (a0, a1) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3,1]})
+    fig, (a0, a1) = plt.subplots(2, 1, figsize=(6,8),
+                                 gridspec_kw={'height_ratios': [3,1]})
     # a0 plots out the top-view of the paraboloid
     a0.set_xlim(size)
     a0.set_ylim(size)
@@ -91,27 +101,32 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     # a1 plots out the side-view of the paraboloid
     a1.set_xlim(size)
-    a1.plot([],[], color='white')
+    a1.plot(parabola[0], parabola[1], color='white')
     a1.grid(color='grey')
 
     puckSide, = a1.plot([], [], linestyle='none',
                         marker='o', mfc='white', mec='red')
 
+    fps = 30
+    t = np.linspace(start=0, stop=time, num=int(time*fps))
+    frames = len(t)
+    x, y, z = pbd.position(t, omega, u0, v0, x0)
+
     def init():
         """Initialization function for the animation."""
         return puckTop, puckSide
 
-    def animation_frame(t):
+    def animation_frame(i):
         """Specific frame of that animation."""
-        x, y, z = pbd.position(t, omega, u0, v0, x0)
+        xpos = x[i]
+        ypos = y[i]
+        zpos = z[i]
 
-        puckTop.set_data(x, y)
-        puckSide.set_data(x, z)
+        puckTop.set_data(xpos, ypos)
+        puckSide.set_data(xpos, zpos)
 
         return puckTop, puckSide
 
-    fps = 30
-    frames = np.linspace(start=0, stop=time, num=int(time*fps))
     animation = animate.FuncAnimation(fig,
                                       init_func=init,
                                       func=animation_frame,
@@ -124,4 +139,8 @@ def save_animation(animation, name):
 
 if __name__ == "__main__":
     animation = animate_paraboloid(time, omega, u0, v0, x0, radius)
-    save_animation(animation, name)
+
+    if switch == 0:
+        plt.show()
+    elif switch == 1:
+        save_animation(animation, name)

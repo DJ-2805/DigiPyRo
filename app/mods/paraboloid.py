@@ -1,26 +1,28 @@
 import numpy as np
 
+g = 9.817
+
 def position(t, omega, u0, v0, x0):
-    """Finds position of puck on paraboloid.
+    """Finds position of puck on paraboloid. The equations come from
+    Cushman-Roisin Chapter 2, in particular, 2.17a, and 2.17b.
 
     Keyword arguments:
-    t -- float, time of given moment
+    t     -- float, time of given moment
     omega -- float, effective rotation
-    u0 -- float, initial x-component of the velocity
-    v0 -- float, initial y-component of the velocity
-    x0 -- float, initial x-component of the position
+    u0    -- float, initial x-component of the velocity
+    v0    -- float, initial y-component of the velocity
+    x0    -- float, initial x-component of the position
 
     Returns:
     x -- float, x-component of the position
     y -- float, y-component of the position
     z -- float, z-component of the position
     """
-    g = 9.817
     ot = omega * t
 
     x = x0*np.cos(ot) + u0/omega*np.sin(ot)
     y = x0*np.cos(ot) + u0/omega*np.sin(ot)
-    z = omega**2/g*(x**2 + y**2)
+    z = omega**2/(2*g)*x**2
 
     return x, y, z
 
@@ -41,6 +43,23 @@ def circle(r):
     yc = r * np.sin(k * twopi / 100)
 
     return xc, yc
+
+def parabola(r, omega):
+    """Creates parabola that represents the sides of the paraboloid.
+
+    Keyword arguments:
+    r -- float, radius of the paraboloid
+    omega -- float, effective rotation
+
+    Returns:
+    s -- array(float), x-values that make up parabola
+    z -- array(float), z-values that make up parabola
+    """
+
+    s = np.linspace(start=-r,stop=r)
+    z = omega**2/(2*g)*s**2
+
+    return s, z
 
 def checkEdge(x, y, r):
     """Checks if puck is off the edge of the paraboloid.
