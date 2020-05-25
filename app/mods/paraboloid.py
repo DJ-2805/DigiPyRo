@@ -21,7 +21,7 @@ def position(t, omega, u0, v0, x0):
     ot = omega * t
 
     x = x0*np.cos(ot) + u0/omega*np.sin(ot)
-    y = x0*np.cos(ot) + u0/omega*np.sin(ot)
+    y = v0/omega*np.sin(ot)
     z = omega**2/(2*g)*x**2
 
     return x, y, z
