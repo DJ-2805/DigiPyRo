@@ -22,7 +22,7 @@ def position(t, omega, u0, v0, x0):
 
     x = x0*np.cos(ot) + u0/omega*np.sin(ot)
     y = v0/omega*np.sin(ot)
-    z = omega**2/g*(x**2 + y**2)
+    z = omega**2/(2*g)*(x**2 + y**2)
 
     return x, y, z
 
@@ -57,7 +57,7 @@ def parabola(r, omega):
     """
 
     s = np.linspace(start=-r,stop=r)
-    z = omega**2/g*s**2
+    z = omega**2/(2*g)*s**2
 
     return s, z
 
