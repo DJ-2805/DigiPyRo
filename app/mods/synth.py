@@ -18,10 +18,10 @@ parser = ap.ArgumentParser(description = msg,
                            formatter_class=ap.ArgumentDefaultsHelpFormatter)
 
 # collecting arguments for the user to change
-parser.add_argument('-t', '--time', type=float, default=5,
-                    help='The length of the movie in seconds.')
+parser.add_argument('-p', '--period', type=float, default=6,
+                    help='The number of periods to be shown in the movie')
 
-parser.add_argument('-o', '--omega', type=float, default=3,
+parser.add_argument('-r', '--rpm_topo', type=float, default=10,
                     help=('The deflection of a stationary paraboloid surface '
                           'as if it were an equipotential in a system '
                           'rotating at the specified rate. '
@@ -42,7 +42,7 @@ parser.add_argument('-x', '--x0', type=float, default=1,
                           'parabolic surface. If too high, the puck will go '
                           'off the edge during the animation.'))
 
-parser.add_argument('-r', '--radius', type=float, default=2,
+parser.add_argument('-R', '--radius', type=float, default=2,
                     help='The radius of the paraboloid')
 
 parser.add_argument('-n', '--name', type=str, default="movie",
@@ -59,8 +59,8 @@ parser.add_argument('-s', '--switch', type=int, default=0,
 # collecting user input into list
 args = parser.parse_args()
 
-time = args.time
-omega = args.omega
+period = args.period
+omega = 2*np.pi*args.rpm_topo/60
 u0 = args.u0
 v0 = args.v0
 x0 = args.x0
@@ -68,7 +68,7 @@ radius = args.radius
 name = args.name + ".mp4"
 switch = args.switch
 
-def animate_paraboloid(time, omega, u0, v0, x0, radius):
+def animate_paraboloid(period, omega, u0, v0, x0, radius):
     """Animates the paraboloid.
 
     Keyword arguments:
@@ -98,8 +98,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     a0.set_xlim(size)
     a0.set_ylim(size)
     a0.set_title("Top-View")
-    a0.set_xlabel("X")
-    a0.set_ylabel("Y", rotation=0)
+    a0.set_xlabel("X [m]")
+    a0.set_ylabel("Y [m]")
 
     a0.plot(circle[0], circle[1], color='white', label="Paraboloid")
     puckTop, = a0.plot([], [], linestyle='none',
@@ -110,8 +110,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     # a1 plots out the side-view of the paraboloid
     a1.set_xlim(size)
-    a1.set_xlabel("X")
-    a1.set_ylabel("Z", rotation=0)
+    a1.set_xlabel("X [m]")
+    a1.set_ylabel("Z [m]")
     a1.set_title("Side-View")
 
     a1.plot(parabola[0], parabola[1], color='white', label="Paraboloid")
@@ -124,7 +124,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     # calculating out the values for each from
     fps = 30
-    t = np.linspace(start=0, stop=time, num=int(time*fps))
+    t = np.linspace(start=0, stop=period, num=int(period*fps))
     frames = len(t)
     x, y, z = pbd.position(t, omega, u0, v0, x0)
 
@@ -156,7 +156,7 @@ def save_animation(animation, name):
 
 # module runs on CLI if run on its own
 if __name__ == "__main__":
-    animation = animate_paraboloid(time, omega, u0, v0, x0, radius)
+    animation = animate_paraboloid(period, omega, u0, v0, x0, radius)
 
     if switch == 0:
         plt.show()
