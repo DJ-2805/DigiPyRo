@@ -18,8 +18,8 @@ parser = ap.ArgumentParser(description = msg,
                            formatter_class=ap.ArgumentDefaultsHelpFormatter)
 
 # collecting arguments for the user to change
-parser.add_argument('-p', '--period', type=float, default=6,
-                    help='The number of periods to be shown in the movie')
+parser.add_argument('-t', '--time', type=float, default=6,
+                    help='The length of the movie in seconds.')
 
 parser.add_argument('-r', '--rpm_topo', type=float, default=10,
                     help=('The deflection of a stationary paraboloid surface '
@@ -43,10 +43,10 @@ parser.add_argument('-x', '--x0', type=float, default=1,
                           'off the edge during the animation.'))
 
 parser.add_argument('-R', '--radius', type=float, default=2,
-                    help='The radius of the paraboloid')
+                    help='The radius of the paraboloid.')
 
 parser.add_argument('-n', '--name', type=str, default="movie",
-                    help=("Title of the movie that will be outputted."
+                    help=("Title of the movie that will be outputted. "
                           "The extension does not need to be provided; the "
                           ".mp4 will be added in the program."))
 
@@ -59,7 +59,7 @@ parser.add_argument('-s', '--switch', type=int, default=0,
 # collecting user input into list
 args = parser.parse_args()
 
-period = args.period
+time = args.time
 omega = 2*np.pi*args.rpm_topo/60
 u0 = args.u0
 v0 = args.v0
@@ -68,7 +68,7 @@ radius = args.radius
 name = args.name + ".mp4"
 switch = args.switch
 
-def animate_paraboloid(period, omega, u0, v0, x0, radius):
+def animate_paraboloid(time, omega, u0, v0, x0, radius):
     """Animates the paraboloid.
 
     Keyword arguments:
@@ -119,12 +119,11 @@ def animate_paraboloid(period, omega, u0, v0, x0, radius):
                         marker='o', mfc='white', mec='red', label="Puck")
 
     a1.grid(color='grey')
-    a1.legend()
     plt.tight_layout()
 
     # calculating out the values for each from
     fps = 30
-    t = np.linspace(start=0, stop=period, num=int(period*fps))
+    t = np.linspace(start=0, stop=time, num=int(time*fps))
     frames = len(t)
     x, y, z = pbd.position(t, omega, u0, v0, x0)
 
@@ -156,7 +155,7 @@ def save_animation(animation, name):
 
 # module runs on CLI if run on its own
 if __name__ == "__main__":
-    animation = animate_paraboloid(period, omega, u0, v0, x0, radius)
+    animation = animate_paraboloid(time, omega, u0, v0, x0, radius)
 
     if switch == 0:
         plt.show()
