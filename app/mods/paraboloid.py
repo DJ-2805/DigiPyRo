@@ -9,14 +9,14 @@ def position(t, omega, u0, v0, x0):
     Keyword arguments:
     t     -- float, time of given moment
     omega -- float, effective rotation
-    u0    -- float, initial x-component of the velocity
-    v0    -- float, initial y-component of the velocity
-    x0    -- float, initial x-component of the position
+    u0    -- float, initial x-component of the velocity [cm/s]
+    v0    -- float, initial y-component of the velocity [cm/s]
+    x0    -- float, initial x-component of the position [m]
 
     Returns:
-    x -- float, x-component of the position
-    y -- float, y-component of the position
-    z -- float, z-component of the position
+    x -- float, x-component of the position [m]
+    y -- float, y-component of the position [m]
+    z -- float, z-component of the position [m]
     """
     ot = omega * t
 
