@@ -77,13 +77,13 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     time : float
         length of animation in seconds
     omega : float
-        effective rotation
+        effective rotation [1/s]
     u0 : float
-        initial x-component of the velocity
+        initial x-component of the velocity [cm/s]
     v0 : float
-        initial y-component of the velocity
+        initial y-component of the velocity [cm/s]
     x0 : float
-        initial x-component of the position
+        initial x-component of the position [cm]
 
     Returns
     -------
@@ -106,8 +106,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     a0.set_xlim(size)
     a0.set_ylim(size)
     a0.set_title("Top-View")
-    a0.set_xlabel("X [m]")
-    a0.set_ylabel("Y [m]")
+    a0.set_xlabel("X [cm]")
+    a0.set_ylabel("Y [cm]")
 
     a0.plot(circle[0], circle[1], color='white', label="Paraboloid")
     puckTop, = a0.plot([], [], linestyle='none',
@@ -118,8 +118,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     # a1 plots out the side-view of the paraboloid
     a1.set_xlim(size)
-    a1.set_xlabel("X [m]")
-    a1.set_ylabel("Z [m]")
+    a1.set_xlabel("X [cm]")
+    a1.set_ylabel("Z [cm]")
     a1.set_title("Side-View")
 
     a1.plot(parabola[0], parabola[1], color='white', label="Paraboloid")
