@@ -1,9 +1,10 @@
-# libraries
-import argparse as ap                       # command line lib
-import paraboloid as pbd                    # paraboloid lib, paraboloid.py
-import numpy as np                          # numerical lib
-import matplotlib.pyplot as plt             # plotting lib
-import matplotlib.animation as animate      # animation lib
+import argparse
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animate
+
+import paraboloid as pbd
 
 # sets plots to a darker color scheme
 plt.style.use("dark_background")
@@ -13,9 +14,9 @@ plt.style.use("dark_background")
 msg = """ This program creates a synthetic .mp4 movie for use with DigiPyRo.
 The video shows a puck sliding on a parabolic surface. The user may change
 several variables of the puck, and observe the animation in the output."""
-
-parser = ap.ArgumentParser(description = msg,
-                           formatter_class=ap.ArgumentDefaultsHelpFormatter)
+fmt = argparse.ArgumentDefaultsHelpFormatter
+parser = argparse.ArgumentParser(description = msg,
+                                 formatter_class=fmt)
 
 # collecting arguments for the user to change
 parser.add_argument('-t', '--time', type=float, default=6,
@@ -24,26 +25,26 @@ parser.add_argument('-t', '--time', type=float, default=6,
 parser.add_argument('-r', '--rpm_topo', type=float, default=10,
                     help=('The deflection of a stationary paraboloid surface '
                           'as if it were an equipotential in a system '
-                          'rotating at the specified rate. '
+                          'rotating at the specified RPM. '
                           'A good value would be between 5 and 15.'))
 
 parser.add_argument('-u', '--u0', type=float, default=0,
-                    help=('The initial x-velocity of the puck moving on the '
-                          'parabolic surface. If too high, the puck will go '
-                          'off the edge during the animation.'))
+                    help=('The initial x-velocity in cm/s of the puck moving '
+                          'on the parabolic surface. If too high, the puck '
+                          'will go off the edge during the animation.'))
 
 parser.add_argument('-v', '--v0', type=float, default=0,
-                    help=('The initial y-velocity of the puck moving on the '
-                          'parabolic surface. If too high, the puck will go '
-                          'off the edge during the animation.'))
+                    help=('The initial y-velocity in cm/s of the puck moving '
+                          'on the parabolic surface. If too high, the puck '
+                          'will go off the edge during the animation.'))
 
 parser.add_argument('-x', '--x0', type=float, default=1,
-                    help=('The initial x-position of the puck moving on the '
-                          'parabolic surface. If too high, the puck will go '
-                          'off the edge during the animation.'))
+                    help=('The initial x-position in cm of the puck moving on '
+                          'the parabolic surface. If too high, the puck will '
+                          'go off the edge during the animation.'))
 
 parser.add_argument('-R', '--radius', type=float, default=2,
-                    help='The radius of the paraboloid.')
+                    help='The radius of the paraboloid in cm.')
 
 parser.add_argument('-n', '--name', type=str, default="movie",
                     help=("Title of the movie that will be outputted. "
@@ -71,16 +72,23 @@ switch = args.switch
 def animate_paraboloid(time, omega, u0, v0, x0, radius):
     """Animates the paraboloid.
 
-    Keyword arguments:
-    time  -- float, length of animation in seconds
-    omega -- float, effective rotation
-    u0    -- float, initial x-component of the velocity
-    v0    -- float, initial y-component of the velocity
-    x0    -- float, initial x-component of the position
+    Parameters
+    ----------
+    time : float
+        length of animation in seconds
+    omega : float
+        effective rotation
+    u0 : float
+        initial x-component of the velocity
+    v0 : float
+        initial y-component of the velocity
+    x0 : float
+        initial x-component of the position
 
-    Returns:
-    animation -- Obj, animation object
-    NOTE: reference matplotlib.animation.funcAnimation for more info.
+    Returns
+    -------
+    Obj, animation object
+        reference matplotlib.animation.funcAnimation for more info.
     """
 
     # creating circle
@@ -128,11 +136,15 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     x, y, z = pbd.position(t, omega, u0, v0, x0)
 
     def init():
-        """Initialization function for the animation."""
+        """Initialization function for the animation.
+        
+        """
         return puckTop, puckSide
 
     def animation_frame(i):
-        """Specific frame of that animation."""
+        """Specific frame of that animation.
+        
+        """
         xpos = x[i]
         ypos = y[i]
         zpos = z[i]
@@ -150,7 +162,9 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     return animation
 
 def save_animation(animation, name):
-    """Saves animation when called."""
+    """Saves animation when called.
+    
+    """
     animation.save(name, writer='ffmpeg', fps=30, dpi=200)
 
 # module runs on CLI if run on its own

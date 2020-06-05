@@ -6,35 +6,44 @@ def position(t, omega, u0, v0, x0):
     """Finds position of puck on paraboloid. The equations come from
     Cushman-Roisin Chapter 2, in particular, 2.17a, and 2.17b.
 
-    Keyword arguments:
-    t     -- float, time of given moment
-    omega -- float, effective rotation
-    u0    -- float, initial x-component of the velocity [cm/s]
-    v0    -- float, initial y-component of the velocity [cm/s]
-    x0    -- float, initial x-component of the position [m]
+    Parameters
+    ----------
+    t : float
+        time of given moment
+    omega : float
+        effective rotation
+    u0 : float
+        initial x-component of the velocity [cm/s]
+    v0 : float
+        initial y-component of the velocity [cm/s]
+    x0 : float
+        initial x-component of the position [m]
 
-    Returns:
-    x -- float, x-component of the position [m]
-    y -- float, y-component of the position [m]
-    z -- float, z-component of the position [m]
+    Returns
+    -------
+    x, y, z : floats
+        x, y, and z componets of the position [m]
     """
     ot = omega * t
 
-    x = x0*np.cos(ot) + u0/omega*np.sin(ot)
-    y = v0/omega*np.sin(ot)
-    z = omega**2/(2*g)*(x**2 + y**2)
+    x = x0 * np.cos(ot) + u0 * np.sin(ot) / omega
+    y = v0 * np.sin(ot) / omega
+    z = omega**2 / (2*g) * (x**2 + y**2)
 
     return x, y, z
 
 def circle(r):
     """Creates circle that represents edge of the paraboloid.
 
-    Keyword arguments:
-    r -- float, radius of the circle
+    Parameters
+    ----------
+    r : float
+        radius of the circle
 
-    Returns:
-    xc -- array(float); x-values of the circle
-    yc -- array(float); y-values of the circle
+    Returns
+    -------
+    xc, yc : array_like
+        x and y values of the circle
     """
     twopi = 2 * np.pi
 
@@ -45,36 +54,41 @@ def circle(r):
     return xc, yc
 
 def parabola(r, omega):
-    """Creates parabola that represents the sides of the paraboloid.
+    """Creates parabola that represents the sides of the paraboloid along y=0.
 
-    Keyword arguments:
-    r -- float, radius of the paraboloid
-    omega -- float, effective rotation
+    Parameters
+    ----------
+    r : float
+        radius of the paraboloid
+    omega : float
+        effective rotation
 
     Returns:
-    s -- array(float), x-values that make up parabola
-    z -- array(float), z-values that make up parabola
+    x, z : array_like
+        x and z values of the parabola
     """
 
-    s = np.linspace(start=-r,stop=r)
-    z = omega**2/(2*g)*s**2
+    x = np.linspace(start=-r,stop=r)
+    z = omega**2 / (2 * g) * x**2
 
-    return s, z
+    return x, z
 
-def checkEdge(x, y, r):
+def check_edge(x, y, r):
     """Checks if puck is off the edge of the paraboloid.
 
-    Keyword arguments:
-    x -- float, x-component of the position of the puck
-    y -- float, y-component of the position of the puck
-    r -- float, radius of the circle
+    Parameters
+    ----------
+    x, y :  floats
+        x and y positions of the puck
+    r : float
+        radius of the circle
 
-    Returns:
-    offEdge -- bool, True if puck crossed the radius of the paraboloid
+    Returns
+    -------
+    bool
+        True if puck crossed the radius of the paraboloid
     """
-    offEdge = False
 
     if(r > np.sqrt(x**2 + y**2)):
-        offEdge = True
-
-    return offEdge
+        return True
+    return False
