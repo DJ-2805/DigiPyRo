@@ -9,20 +9,20 @@ def position(t, omega, u0, v0, x0):
     Parameters
     ----------
     t : float
-        time of given moment
+        time of given moment [s]
     omega : float
-        effective rotation
+        effective rotation [1/s]
     u0 : float
         initial x-component of the velocity [cm/s]
     v0 : float
         initial y-component of the velocity [cm/s]
     x0 : float
-        initial x-component of the position [m]
+        initial x-component of the position [cm]
 
     Returns
     -------
     x, y, z : floats
-        x, y, and z componets of the position [m]
+        x, y, and z componets of the position [cm]
     """
     ot = omega * t
 
@@ -38,7 +38,7 @@ def circle(r):
     Parameters
     ----------
     r : float
-        radius of the circle
+        radius of the circle [cm]
 
     Returns
     -------
@@ -59,9 +59,9 @@ def parabola(r, omega):
     Parameters
     ----------
     r : float
-        radius of the paraboloid
+        radius of the paraboloid [cm]
     omega : float
-        effective rotation
+        effective rotation [1/s]
 
     Returns:
     x, z : array_like
@@ -79,7 +79,7 @@ def check_edge(x, y, r):
     Parameters
     ----------
     x, y :  floats
-        x and y positions of the puck
+        x and y positions of the puck [cm]
     r : float
         radius of the circle
 
