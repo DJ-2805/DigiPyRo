@@ -79,7 +79,7 @@ def center_click(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         center = (x, y)
         cv2.circle(frame, center, 4, (255, 0, 0), -1)
-        cv2.imshow('center_click', frame)
+        cv2.imshow('CenterClick', frame)
         frame = clone.copy()
 
 def first_frame(video, dim, start):
