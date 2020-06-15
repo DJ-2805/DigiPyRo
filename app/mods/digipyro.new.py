@@ -3,6 +3,7 @@ import argparse
 import cv2
 import numpy as np
 
+import select as sel
 #------------------------------------------------------------------------------
 # *** COMMAND LINE INTERFACE SETUP ***
 # initial message for program
@@ -38,10 +39,6 @@ t1 = args.t1
 rpm = args.rpm
 path = args.path
 
-
-x,y = 10,10
-center = (x,y)
-
 def digi_rotate(t0, t1, rpm, path):
     fps = 30
 
@@ -58,7 +55,7 @@ def digi_rotate(t0, t1, rpm, path):
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     video_writer = cv2.VideoWriter(output, fourcc, fps, dim)
 
-    first_frame(vid, dim, start)
+    poly1, poly2, center = sel.selection_window(vid, dim, start)
 
     frames = int(fps * (t1 - t0))
     dtheta = 6 * rpm / fps
@@ -66,35 +63,16 @@ def digi_rotate(t0, t1, rpm, path):
         ret, frame = vid.read()
         frame = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)
 
+        cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
+        cv2.circle(frame, center, 4, (255,0,0), -1)
+
         M = cv2.getRotationMatrix2D(center, i*dtheta, 1.0)
         frame = cv2.warpAffine(frame, M, dim)
+        frame = sel.center_frame(frame, center[0], center[1], dim)
         centered = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)
-        video_writer.write(frame)
+        video_writer.write(centered)
 
     video_writer.release()
-
-def center_click(event, x, y, flags, param):
-
-    clone = frame.copy()
-    if event == cv2.EVENT_LBUTTONDOWN:
-        center = (x, y)
-        cv2.circle(frame, center, 4, (255, 0, 0), -1)
-        cv2.imshow('CenterClick', frame)
-        frame = clone.copy()
-
-def first_frame(video, dim, start):
-    video.set(cv2.CAP_PROP_POS_FRAMES, start)
-    ret, frame = video.read()
-    frame = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)
-
-    cv2.namedWindow('CenterClick')
-    cv2.setMouseCallback('CenterClick', center_click)
-
-    while 1:
-        cv2.imshow('CenterClick', frame)
-        k = cv2.waitKey(0)
-        if k == 13:
-            break
 
 if __name__ == "__main__":
     digi_rotate(t0, t1, rpm, path)
