@@ -3,7 +3,7 @@ import argparse
 import cv2
 import numpy as np
 
-import select as sel
+import interaction as interact
 #------------------------------------------------------------------------------
 # *** COMMAND LINE INTERFACE SETUP ***
 # initial message for program
@@ -55,7 +55,7 @@ def digi_rotate(t0, t1, rpm, path):
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     video_writer = cv2.VideoWriter(output, fourcc, fps, dim)
 
-    poly1, poly2, center = sel.selection_window(vid, dim, start)
+    poly1, poly2, center = interact.selection_window(vid, dim, start)
 
     frames = int(fps * (t1 - t0))
     dtheta = 6 * rpm / fps
@@ -71,7 +71,7 @@ def digi_rotate(t0, t1, rpm, path):
 
         cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
 
-        frame = sel.center_frame(frame, center[0], center[1], dim)
+        frame = interact.center_frame(frame, center[0], center[1], dim)
         centered = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)
         video_writer.write(centered)
 

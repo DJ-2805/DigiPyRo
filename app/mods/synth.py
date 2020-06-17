@@ -109,7 +109,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     a0.set_xlabel("X [cm]")
     a0.set_ylabel("Y [cm]")
 
-    a0.plot(circle[0], circle[1], color='white', label="Paraboloid")
+    # a0.plot(circle[0], circle[1], color='white', label="Paraboloid")
+    a0.add_patch(circle)
     puckTop, = a0.plot([], [], linestyle='none',
                        marker='o', mfc='white', mec='red', label="Puck")
 
@@ -137,13 +138,13 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     def init():
         """Initialization function for the animation.
-        
+
         """
         return puckTop, puckSide
 
     def animation_frame(i):
         """Specific frame of that animation.
-        
+
         """
         xpos = x[i]
         ypos = y[i]
@@ -163,7 +164,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
 def save_animation(animation, name):
     """Saves animation when called.
-    
+
     """
     animation.save(name, writer='ffmpeg', fps=30, dpi=200)
 

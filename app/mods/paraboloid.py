@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.patches as patch
 
 g = 9.817
 
@@ -42,16 +43,18 @@ def circle(r):
 
     Returns
     -------
-    xc, yc : array_like
-        x and y values of the circle
+    circle : object
+        circle object
+
+    Note:
+    -----
+    Check matplotlib.patches.Circle for more information on the circle object
     """
-    twopi = 2 * np.pi
+    circle = patch.Circle((0, 0), r, facecolor='none',
+                          edgecolor='white',
+                          linewidth=1.5)
 
-    k = np.arange(1, 102)
-    xc = r * np.cos(k * twopi / 100)
-    yc = r * np.sin(k * twopi / 100)
-
-    return xc, yc
+    return circle
 
 def parabola(r, omega):
     """Creates parabola that represents the sides of the paraboloid along y=0.
