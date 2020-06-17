@@ -72,33 +72,48 @@ def select_circle(event, x, y, flags, param):
             cv2.circle(frame, center, 4, (255,0,0), -1)
             cv2.circle(frame, center, r, (0,255,0), 1)
 
-        cv2.imshow('CenterClick', frame)
+        cv2.imshow('Select Circle', frame)
         frame = clone.copy()
 
+# Calculates the center and radius of the best-fit circle through an array of points (by least-squares method)
 def calc_center(xp, yp):
-    # arguments used in computations
-    xp2 = xp**2
-    yp2 = yp**2
-    xy = xp * yp
+    n = len(xp)
+    circleMatrix = np.matrix([[np.sum(xp**2), np.sum(xp*yp), np.sum(xp)], [np.sum(xp*yp), np.sum(yp**2), np.sum(yp)], [np.sum(xp), np.sum(yp), n]])
+    circleVec = np.transpose(np.array([np.sum(xp*((xp**2)+(yp**2))), np.sum(yp*((xp**2)+(yp**2))), np.sum((xp**2)+(yp**2))]))
+    ABC = np.transpose(np.dot(np.linalg.inv(circleMatrix), circleVec))
+    xc = ABC.item(0)/2
+    yc = ABC.item(1)/2
+    a = ABC.item(0)
+    b = ABC.item(1)
+    c = ABC.item(2)
+    d = (4*c)+(a**2)+(b**2)
+    diam = d**(0.5)
+    return np.array([int(xc), int(yc), int(diam/2)])
 
-    circleArr = np.array([[np.sum(xp2), np.sum(xy), np.sum(xp)],
-                          [np.sum(xy), np.sum(yp2), np.sum(yp)],
-                          [np.sum(xp), np.sum(yp), len(xp)]])
-
-    circleVec = np.array([np.sum(xp * (xp2 + yp2)),
-                          np.sum(yp * (xp2 + yp2)),
-                          np.sum(xp2 + yp2)])
-
-    circleInv = np.linalg.inv(circleArr)
-
-    # matric multiplication
-    M = (circleInv @ circleVec).T
-
-    xc = M[0] / 2
-    yc = M[1] / 2
-    d = M[0]**2 + M[1]**2 + M[2] * 4
-    diam = np.sqrt(d)
-    return np.array([int(xc), int(yc), int(diam / 2)])
+# def calc_center(xp, yp):
+    # # arguments used in computations
+    # xp2 = xp**2
+    # yp2 = yp**2
+    # xy = xp * yp
+#
+    # circleArr = np.array([[np.sum(xp2), np.sum(xy), np.sum(xp)],
+                          # [np.sum(xy), np.sum(yp2), np.sum(yp)],
+                          # [np.sum(xp), np.sum(yp), len(xp)]])
+#
+    # circleVec = np.array([np.sum(xp * (xp2 + yp2)),
+                          # np.sum(yp * (xp2 + yp2)),
+                          # np.sum(xp2 + yp2)])
+#
+    # circleInv = np.linalg.inv(circleArr)
+#
+    # # matric multiplication
+    # M = (circleInv @ circleVec).T
+#
+    # xc = M[0] / 2
+    # yc = M[1] / 2
+    # d = M[0]**2 + M[1]**2 + M[2] * 4
+    # diam = np.sqrt(d)
+    # return np.array([int(xc), int(yc), int(diam / 2)])
 
 
 # Displays instructions on the screen for identifying the
@@ -143,7 +158,7 @@ def remove_point(orig):
 
     # if there are more than 2 points after removing the most recent point,
     # recalculate the center of rotation and the mask region
-    if (len(xpoints) > 2):							
+    if (len(xpoints) > 2):
         bestfit = calc_center(xpoints, ypoints)
         center = (bestfit[0], bestfit[1])
         r = bestfit[2]
@@ -165,7 +180,7 @@ def remove_point(orig):
         cv2.circle(frame, center, r, (0,255,0), 1)
         cv2.imshow('Select Circle', frame)
 
-    
+
 # Shifts image so that it is centered at (x_c, y_c)
 def center_frame(img, x_c, y_c, dim):
     width = dim[0]

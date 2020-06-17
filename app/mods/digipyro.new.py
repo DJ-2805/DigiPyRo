@@ -68,6 +68,9 @@ def digi_rotate(t0, t1, rpm, path):
 
         M = cv2.getRotationMatrix2D(center, i*dtheta, 1.0)
         frame = cv2.warpAffine(frame, M, dim)
+
+        cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
+
         frame = sel.center_frame(frame, center[0], center[1], dim)
         centered = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)
         video_writer.write(centered)
