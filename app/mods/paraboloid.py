@@ -23,7 +23,7 @@ def position(t, omega, u0, v0, x0):
     Returns
     -------
     x, y, z : floats
-        x, y, and z componets of the position [cm]
+        X, y, and z componets of the position [cm].
     """
     ot = omega * t
 
@@ -39,16 +39,16 @@ def circle(r):
     Parameters
     ----------
     r : float
-        radius of the circle [cm]
+        Radius of the circle [cm].
 
     Returns
     -------
     circle : object
-        circle object
+        Circle object to be plotted.
 
-    Note:
+    Notes
     -----
-    Check matplotlib.patches.Circle for more information on the circle object
+    Check matplotlib.patches.Circle for more information on the circle object.
     """
     circle = patch.Circle((0, 0), r, facecolor='none',
                           edgecolor='white',

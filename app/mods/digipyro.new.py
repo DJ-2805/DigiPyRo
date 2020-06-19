@@ -47,7 +47,7 @@ def digi_rotate(t0, t1, rpm, path):
     height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
     dim = (width, height)
 
-    start = fps*t0
+    start = fps * t0
     if start == 0:
         start = 1
 
@@ -68,8 +68,6 @@ def digi_rotate(t0, t1, rpm, path):
 
         M = cv2.getRotationMatrix2D(center, i*dtheta, 1.0)
         frame = cv2.warpAffine(frame, M, dim)
-
-        cv2.fillPoly(frame, np.array([poly1, poly2]), 0)
 
         frame = interact.center_frame(frame, center[0], center[1], dim)
         centered = cv2.resize(frame, dim, interpolation=cv2.INTER_CUBIC)

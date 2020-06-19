@@ -99,6 +99,8 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     rmax = radius*1.5
     size = (-1*(rmax), rmax)
 
+    xt, yt = [], []
+
     # creating figure and plots
     fig, (a0, a1) = plt.subplots(2, 1, figsize=(6,8),
                                  gridspec_kw={'height_ratios': [3,1]})
