@@ -25,7 +25,7 @@ parser.add_argument('--t1', type=float, default=5,
 parser.add_argument('--rpm', type=float, default=10,
                    help='The digital rotation given to the movie.')
 
-parser.add_argument('--path', type=str, default='../../../movie',
+parser.add_argument('--path', type=str, required=True,
                     help='The complete path of the movie being inputted.')
 #------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ path = args.path
 def digi_rotate(t0, t1, rpm, path):
     fps = 30
 
-    vid = cv2.VideoCapture(path + '.mp4')
+    vid = cv2.VideoCapture(path)
     width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
     dim = (width, height)
@@ -51,6 +51,7 @@ def digi_rotate(t0, t1, rpm, path):
     if start == 0:
         start = 1
 
+    path = path[:-4]
     output = path + '-rot.mp4'
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     video_writer = cv2.VideoWriter(output, fourcc, fps, dim)
