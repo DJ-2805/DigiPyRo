@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.patches as patch
 
-g = 9.817
+g = 981.7
 
 def position(t, omega, u0, v0, x0):
     """Finds position of puck on paraboloid. The equations come from

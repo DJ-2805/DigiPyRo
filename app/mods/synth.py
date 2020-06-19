@@ -111,10 +111,13 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     a0.set_xlabel("X [cm]")
     a0.set_ylabel("Y [cm]")
 
-    # a0.plot(circle[0], circle[1], color='white', label="Paraboloid")
     a0.add_patch(circle)
+    # follows the puck path in the absolute axis
     puckTop, = a0.plot([], [], linestyle='none',
                        marker='o', mfc='white', mec='red', label="Puck")
+    # follows the puck path in the rotating axis
+    puckInt, = a0.plot([], [], linestyle='none', marker='.',
+                       mfc='green', ms=1, label="Inertial Path")
 
     a0.grid(color='grey')
     a0.legend()
@@ -126,6 +129,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     a1.set_title("Side-View")
 
     a1.plot(parabola[0], parabola[1], color='white', label="Paraboloid")
+    # follows side view of the puck path
     puckSide, = a1.plot([], [], linestyle='none',
                         marker='o', mfc='white', mec='red', label="Puck")
 
@@ -137,12 +141,13 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     t = np.linspace(start=0, stop=time, num=int(time*fps))
     frames = len(t)
     x, y, z = pbd.position(t, omega, u0, v0, x0)
+    dot = omega * t[1]
 
     def init():
         """Initialization function for the animation.
 
         """
-        return puckTop, puckSide
+        return puckTop, puckInt, puckSide
 
     def animation_frame(i):
         """Specific frame of that animation.
@@ -152,10 +157,23 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
         ypos = y[i]
         zpos = z[i]
 
+        # rotation of trajectory inprint on rotating axis
+        for j in range(i):
+            xn = xt[j] * np.cos(dot) - yt[j] * np.sin(dot)
+            yn = xt[j] * np.sin(dot) + yt[j] * np.cos(dot)
+            xt[j] = xn
+            yt[j] = yn
+
+        # adding points to the rotating axis
+        xt.append(xpos)
+        yt.append(ypos)
+
+        # setting points for animation
         puckTop.set_data(xpos, ypos)
+        puckInt.set_data(xt, yt)
         puckSide.set_data(xpos, zpos)
 
-        return puckTop, puckSide
+        return puckTop, puckInt, puckSide
 
     animation = animate.FuncAnimation(fig,
                                       init_func=init,
