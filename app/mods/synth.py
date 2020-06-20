@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animate
+from PIL import Image
 
 import paraboloid as pbd
 
@@ -101,9 +102,20 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     xt, yt = [], []
 
+    resize = (50,25)
+    spinlab = Image.open('../static/SpinLabUCLA_BW_strokes.png')
+    spinlab = spinlab.resize(resize)
+    diynamics = Image.open('../static/diynamics-swirl-light.png')
+    diynamics = diynamics.resize(resize)
+
     # creating figure and plots
     fig, (a0, a1) = plt.subplots(2, 1, figsize=(6,8),
                                  gridspec_kw={'height_ratios': [3,1]})
+
+    # inserting watermark
+    fig.figimage(diynamics, xo=540)
+    fig.figimage(spinlab, xo=10)
+
     # a0 plots out the top-view of the paraboloid
     a0.set_xlim(size)
     a0.set_ylim(size)
@@ -119,7 +131,6 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     puckInt, = a0.plot([], [], linestyle='none', marker='.',
                        mfc='green', ms=1, label="Inertial Path")
 
-    a0.grid(color='grey')
     a0.legend()
 
     # a1 plots out the side-view of the paraboloid
@@ -133,7 +144,6 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     puckSide, = a1.plot([], [], linestyle='none',
                         marker='o', mfc='white', mec='red', label="Puck")
 
-    a1.grid(color='grey')
     plt.tight_layout()
 
     # calculating out the values for each from
@@ -195,4 +205,4 @@ if __name__ == "__main__":
     if switch == 0:
         plt.show()
     elif switch == 1:
-        save_animation(animation, name)
+        save_animation(animation, '../../../' + name)

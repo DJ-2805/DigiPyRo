@@ -3,6 +3,25 @@ import numpy as np
 
 
 def selection_window(video, dim, start):
+    """Opens a window where the user will interact with the film and click the
+    area of interest for the rotation.
+
+    Parameters
+    ----------
+    video : Object
+        The film that will be interacted with.
+    dim : tuple
+        This holds the dimension float values as (width, height).
+    start : int
+        The first frame to be interacted with.
+
+    Returns
+    -------
+    poly1, poly2 : array_like
+        The areas that will be blacked out from the film.
+    center : tuple
+        The axis of rotation.
+    """
     global npts, center, frame, xpoints, ypoints, r, poly1, poly2
 
     npts = 0
@@ -27,10 +46,22 @@ def selection_window(video, dim, start):
     cv2.destroyWindow('Select Circle')
     return poly1, poly2, center
 
-
-# User clicks points along the circumference of a circular ROI. This function
-# records the points and calculates the best-fit circle through the points.
 def select_circle(event, x, y, flags, param):
+    """The user clicks points along the circumference of a circular region of
+    interest. This will record the points and calculate the best-fit circle
+    through those points.
+
+    Parameters
+    ----------
+    event
+        The clicking event from the user.
+    x, y
+        The center point of the circle.
+    flags
+        Any flags that come along with the event.
+    param
+        Any extra parameters for this function.
+    """
     global npts, center, frame, xpoints, ypoints, r, poly1, poly2
     # if user clicks
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -75,52 +106,55 @@ def select_circle(event, x, y, flags, param):
         cv2.imshow('Select Circle', frame)
         frame = clone.copy()
 
-# Calculates the center and radius of the best-fit circle through an array of points (by least-squares method)
 def calc_center(xp, yp):
-    n = len(xp)
-    circleMatrix = np.matrix([[np.sum(xp**2), np.sum(xp*yp), np.sum(xp)], [np.sum(xp*yp), np.sum(yp**2), np.sum(yp)], [np.sum(xp), np.sum(yp), n]])
-    circleVec = np.transpose(np.array([np.sum(xp*((xp**2)+(yp**2))), np.sum(yp*((xp**2)+(yp**2))), np.sum((xp**2)+(yp**2))]))
-    ABC = np.transpose(np.dot(np.linalg.inv(circleMatrix), circleVec))
-    xc = ABC.item(0)/2
-    yc = ABC.item(1)/2
-    a = ABC.item(0)
-    b = ABC.item(1)
-    c = ABC.item(2)
-    d = (4*c)+(a**2)+(b**2)
-    diam = d**(0.5)
-    return np.array([int(xc), int(yc), int(diam/2)])
+    """This calculates the center and radius of the best-fit circle through
+    an array of points by the least-squares method.
 
-# def calc_center(xp, yp):
-    # # arguments used in computations
-    # xp2 = xp**2
-    # yp2 = yp**2
-    # xy = xp * yp
-#
-    # circleArr = np.array([[np.sum(xp2), np.sum(xy), np.sum(xp)],
-                          # [np.sum(xy), np.sum(yp2), np.sum(yp)],
-                          # [np.sum(xp), np.sum(yp), len(xp)]])
-#
-    # circleVec = np.array([np.sum(xp * (xp2 + yp2)),
-                          # np.sum(yp * (xp2 + yp2)),
-                          # np.sum(xp2 + yp2)])
-#
-    # circleInv = np.linalg.inv(circleArr)
-#
-    # # matric multiplication
-    # M = (circleInv @ circleVec).T
-#
-    # xc = M[0] / 2
-    # yc = M[1] / 2
-    # d = M[0]**2 + M[1]**2 + M[2] * 4
-    # diam = np.sqrt(d)
-    # return np.array([int(xc), int(yc), int(diam / 2)])
+    Parameters
+    ----------
+    xp, yp : array_like
+        The array of x and y points that the user has selected from the film.
 
+    Returns
+    -------
+    array_like
+        The best-fit circle through the array of points.
+    """
+    # arguments used in computations
+    xp2 = xp**2
+    yp2 = yp**2
+    xy = xp * yp
 
-# Displays instructions on the screen for identifying the
-# circle of interest
+    circleArr = np.array([[np.sum(xp2), np.sum(xy), np.sum(xp)],
+                          [np.sum(xy), np.sum(yp2), np.sum(yp)],
+                          [np.sum(xp), np.sum(yp), len(xp)]])
+
+    circleVec = np.array([np.sum(xp * (xp2 + yp2)),
+                          np.sum(yp * (xp2 + yp2)),
+                          np.sum(xp2 + yp2)])
+
+    circleInv = np.linalg.inv(circleArr)
+
+    # matric multiplication
+    M = (circleInv @ circleVec).T
+
+    xc = M[0] / 2
+    yc = M[1] / 2
+    d = M[0]**2 + M[1]**2 + M[2] * 4
+    diam = np.sqrt(d)
+    return np.array([int(xc), int(yc), int(diam / 2)])
+
 def instructions_circle(img):
+    """Displays instructions on the screen for identifyin the circle of
+    interest.
+
+    Parameters
+    ----------
+    img : Object
+        The frame given to place the text on.
+    """
     font = cv2.FONT_HERSHEY_PLAIN
-    line1 = 'Click on 3 or more points along the border of the circle or polygon'
+    line1 = 'Click on 3 or more points along the border of the circle'
     line1Loc = (25, 50)
     line2 = 'around which the movie will be rotated.'
     line2Loc = (25, 75)
@@ -136,10 +170,18 @@ def instructions_circle(img):
 
 
 def remove_point(orig):
+    """Removes a point from the selected circle.
+
+    Parameters
+    ----------
+    orig : Object
+        The frame given to remove a point from.
+    """
     global npts, center, frame, xpoints, ypoints, r, poly1, poly2
+
+    # if no points exit out
     if npts == 0:
         return
-
     else:
         npts -= 1
         if npts == 0:
@@ -180,9 +222,23 @@ def remove_point(orig):
         cv2.circle(frame, center, r, (0,255,0), 1)
         cv2.imshow('Select Circle', frame)
 
-
-# Shifts image so that it is centered at (x_c, y_c)
 def center_frame(img, x_c, y_c, dim):
+    """This shifts the image so it is centered at (x_c, y_c).
+
+    Parameters
+    ----------
+    img : Object
+        The frame given to interact with.
+    x_c, y_c : floats
+        The point to center the frame at.
+    dim : tuple
+        The (width, height) of the frame to size correctly.
+
+    Returns
+    -------
+    Object
+        A transformed centered frame to match with the rotation transform.
+    """
     width = dim[0]
     height = dim[1]
 
