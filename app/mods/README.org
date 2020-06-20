@@ -22,3 +22,7 @@
      - Have so side-by-side of rotated and de-rotated films
      - Enable particle tracking
      - have a timestamp shown on the film
+     - NOTE :: =digipyro.old.py= is Sam May's implementation. Many of the features planned for the is already designed into his code, but needs to be moved over, so that it fits with the modular design that this code is now following.
+
+* Future
+  Overall, synth and digipyro is cleaned up a lot, and are being designed with a modular mindset, so code can be found and "easily" updated. The other main module will be a GUI that will implement these synth and digipyro functions, and app.py will run it all seamlessly.
