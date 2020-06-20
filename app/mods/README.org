@@ -7,11 +7,14 @@
   1. Present
      - project runs as a CLI
      - shows the inertial path along with the absolute path
+     - NOTE :: The animation has a switch to run it live or just save it. Running it live is mainly for quick debugging. It is not perfect, and the watermarks on it come out larger, but get fixed to their correct size when the film is saved. If the live feature wants to be used in the future for the project, it will need to be sped up and the image sizing will need to be fixed.
   2. Future
      - have an on/off for a grid on synth
      - have an on/off for the inertial path to be shown
      - show time/omega as animation progresses
      - have different grid options (i.e. concentric circles or square grid)
+     - have a message show that puck has gone off the paraboloid
+     - The watermarks have been added, but the DIYnamics logo is difficult to read. A new one that can fit with the black background should perhaps be designed.
 
 * DigiPyRo
   1. Present

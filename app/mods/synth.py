@@ -102,7 +102,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
 
     xt, yt = [], []
 
-    resize = (50,25)
+    resize = (150,75)
     spinlab = Image.open('../static/SpinLabUCLA_BW_strokes.png')
     spinlab = spinlab.resize(resize)
     diynamics = Image.open('../static/diynamics-swirl-light.png')
@@ -113,7 +113,7 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
                                  gridspec_kw={'height_ratios': [3,1]})
 
     # inserting watermark
-    fig.figimage(diynamics, xo=540)
+    fig.figimage(diynamics, xo=1000)
     fig.figimage(spinlab, xo=10)
 
     # a0 plots out the top-view of the paraboloid
