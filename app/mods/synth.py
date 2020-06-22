@@ -130,7 +130,6 @@ def animate_paraboloid(time, omega, u0, v0, x0, radius):
     # follows the puck path in the rotating axis
     puckInt, = a0.plot([], [], linestyle='none', marker='.',
                        mfc='green', ms=1, label="Inertial Path")
-
     a0.legend()
 
     # a1 plots out the side-view of the paraboloid
